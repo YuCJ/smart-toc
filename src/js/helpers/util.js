@@ -69,7 +69,7 @@ export const unique = (function uniqueGenerator() {
 
 export const scrollTo = (function scrollToFactory() {
   let request
-  const easeOutQuad = function (t, b, c, d) {
+  const easeOutQuad = function(t, b, c, d) {
     t /= d
     return -c * t * (t - 2) + b
   }
@@ -149,7 +149,7 @@ function setClass(elem, names, delay) {
 
 export const toast = (function toastFactory() {
   let timers = []
-  return function toast(msg) {
+  return function(msg) {
     let toast
     insertCSS(toastCSS, 'smarttoc-toast__css')
     if (document.getElementById('smarttoc-toast')) {

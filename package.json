@@ -6,10 +6,10 @@
   "scripts": {
     "clean": "rm -rf dist smart-toc.zip",
     "chrome": "cp src/chrome/* dist/",
-    "uglify": "uglifyjs --compress --mangle -o dist/toc.js -- dist/toc.js ",
+    "uglify": "escompress dist/toc.js > dist/toc.min.js && mv -f dist/toc.min.js dist/toc.js",
     "build": "rollup -c ",
     "zip": "zip -r smart-toc.zip dist",
-    "publish": "npm run clean; npm run build && npm run chrome && npm run zip",
+    "publish": "npm run clean; npm run build && npm run uglify && npm run chrome && npm run zip",
     "dev": "DEV=true chokidar 'src/**' -c 'npm run build' -t 500 --initial",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -33,6 +33,7 @@
   "homepage": "https://github.com/FallenMax/smart-toc#readme",
   "devDependencies": {
     "chokidar-cli": "1.2.0",
+    "escompress": "^0.5.0",
     "rollup": "0.34.1",
     "rollup-plugin-replace": "1.1.1",
     "rollup-plugin-string": "^2.0.0",
