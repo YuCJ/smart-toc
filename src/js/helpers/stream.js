@@ -17,7 +17,7 @@ const proto = {
   },
   unique() {
     let lastValue = this.value
-    let $unique = Stream(lastValue)
+    const $unique = Stream(lastValue)
     this.subscribe(val => {
       if (val !== lastValue) {
         $unique(val)
@@ -33,22 +33,22 @@ const proto = {
     return this.map(output => (f(output) ? output : undefined))
   },
   throttle(delay) {
-    let $throttled = Stream(this.value)
+    const $throttled = Stream(this.value)
     const emit = throttle(value => $throttled(value), delay)
     this.subscribe(emit)
     return $throttled
   },
   tween(easeFn = easeOutQuad, duration = 300, cb) {
-    let $tweened = Stream(this.value)
+    const $tweened = Stream(this.value)
     let current, target, request, startTime
 
     function update(timestamp) {
       if (!startTime) {
         startTime = timestamp
       }
-      let progress = (timestamp - startTime) / duration
+      const progress = (timestamp - startTime) / duration
       if (progress < 1) {
-        let now = easeFn(timestamp - startTime, current, target-current, duration)
+        const now = easeFn(timestamp - startTime, current, target - current, duration)
         $tweened(now)
         requestAnimationFrame(update)
       } else {
@@ -73,7 +73,7 @@ const proto = {
 }
 
 const Stream = function Stream(initial) {
-  let s = function(val) {
+  const s = function(val) {
     if (val !== undefined) {
       s.value = val
       s.listeners.forEach(l => l(s.value))
@@ -90,9 +90,9 @@ const Stream = function Stream(initial) {
 }
 
 Stream.combine = function(...streams) {
-  let reducer = streams.pop()
-  let cached = streams.map(s => s())
-  let $combined = Stream(reducer(...cached))
+  const reducer = streams.pop()
+  const cached = streams.map(s => s())
+  const $combined = Stream(reducer(...cached))
   streams.forEach((stream, i) => {
     stream.subscribe(val => {
       cached[i] = val
@@ -103,13 +103,13 @@ Stream.combine = function(...streams) {
 }
 
 Stream.interval = function(int) {
-  let $interval = Stream()
+  const $interval = Stream()
   setInterval(() => $interval(null), int)
   return $interval
 }
 
 Stream.fromEvent = function(elem, type) {
-  let $event = Stream()
+  const $event = Stream()
   elem.addEventListener(type, $event)
   return $event
 }
